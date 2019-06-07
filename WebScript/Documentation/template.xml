@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<WebScripts>
+
+	<WebScript>
+		<url>https://www.google.es/</url>
+		
+		<action>
+			<checking check="title">
+				<!-- The checking is done before perform the concrete action -->
+				
+				<value>Google</value>
+			</checking>
+			
+			<do method="click">
+				<position type="xpath">/html/body/div/div[3]/form/div[2]/div/div[1]/div/div[1]/input</position>
+			</do>
+		</action>
+		
+		<action>
+			<checking check="text">
+				<position type="xpath">/html/body/div/div[3]/form/div[2]/div/div[3]/center/input[1]</position>
+				<value>Buscar con Google</value>
+			</checking>
+			
+			<do method="write">
+				<value>Halo 3</value>
+			</do>
+		</action>
+		
+		<action>
+			<do method="click">
+				<position type="xpath">/html/body/div/div[3]/form/div[2]/div/div[3]/center/input[1]</position>
+			</do>
+		</action>
+		
+		<action>
+			<checking check="title">
+				<value>Halo 3 - Buscar con Google</value>
+			</checking>
+		</action>
+	</WebScript>
+	
+	<WebScript>
+		<url>https://www.google.es</url>
+	</WebScript>
+	
+</WebScripts>
