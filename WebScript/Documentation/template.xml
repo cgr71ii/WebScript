@@ -12,18 +12,8 @@
 				<value>Google</value>
 			</checking>
 			
-			<do method="click">
-				<position type="xpath">/html/body/div/div[3]/form/div[2]/div/div[1]/div/div[1]/input</position>
-			</do>
-		</action>
-		
-		<action>
-			<checking check="text">
-				<position type="xpath">/html/body/div/div[3]/form/div[2]/div/div[3]/center/input[1]</position>
-				<value>Buscar con Google</value>
-			</checking>
-			
 			<do method="write">
+				<position type="xpath">/html/body/div/div[3]/form/div[2]/div/div[1]/div/div[1]/input</position>
 				<value>Halo 3</value>
 			</do>
 		</action>
@@ -39,6 +29,10 @@
 				<value>Halo 3 - Buscar con Google</value>
 			</checking>
 		</action>
+	</WebScript>
+	
+	<WebScript>
+		<url>NonExistentURL.com</url>
 	</WebScript>
 	
 	<WebScript>

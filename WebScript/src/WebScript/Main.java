@@ -1,6 +1,7 @@
 package WebScript;
 
 import java.io.FileNotFoundException;
+import java.util.ArrayList;
 
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -49,21 +50,37 @@ public class Main
 		}
 		catch(Exception e)
 		{
-			System.err.println("Parsing failed...");
+			System.err.println("Parsing failed: XML file (" + args[0] + ") contains errors.");
 			
 			System.exit(1);
 		}
 		
 		System.out.println("XML document parsed!");
 		
-		/*
-		for (WebScript ws : parser.nextWebScript())
+		ArrayList<WebScript> webScripts = parser.getWebScripts();
+		
+		if (webScripts.size() == 0)
+		{
+			System.err.println("XML File (" + args[0] + ") has not any web script!");
+			
+			System.exit(1);
+		}
+		
+		for (WebScript ws : webScripts)
 		{
 			int actionCount = 1;
+			ArrayList<Action> actions = ws.getActions();
 			
 			System.out.println("WebScript #" + wsCount++);
 			
-			for (Action a : ws.performNextAction())
+			if (actions.size() == 0)
+			{
+				System.err.println("This web script has not actions... skipping.");
+				
+				continue;
+			}
+			
+			for (Action a : actions)
 			{
 				System.out.println("Action #" + actionCount++);
 				
@@ -73,7 +90,8 @@ public class Main
 				}
 			}
 		}
-		*/
+		
+		System.exit(0);
 	}
 	
 }

@@ -48,7 +48,7 @@ public class CheckingText extends Checking
 	@Override
 	public String toString()
 	{
-		return "{Position: " + this.position.toString() + "; Value: " + this.value + "}";
+		return "[Checking TEXT]{Position: " + this.position.toString() + "; Value: " + this.value + "}";
 	}
 	
 }

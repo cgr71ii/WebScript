@@ -33,7 +33,7 @@ public class Checking
 		
 		if (cNNM.getLength() != 1)
 		{
-			System.err.println("Checking has to have at least / only the \"type\" attribute.");
+			System.err.println("\"Checking\" node has to have at least / only the \"check\" attribute.");
 			
 			throw new Exception();
 		}
@@ -42,7 +42,7 @@ public class Checking
 		
 		if (typeNode == null)
 		{
-			System.err.println("Checking has to have the \"check\" attribute, not other.");
+			System.err.println("\"Checking\" node has to have the \"check\" attribute, not other.");
 			
 			throw new Exception();
 		}
@@ -55,7 +55,7 @@ public class Checking
 		}
 		catch (Exception e)
 		{
-			System.err.println("The checking type can only be: ");
+			System.err.println("The \"checking\" node type can only be: ");
 			
 			for (CheckType t : CheckType.values())
 			{
@@ -66,7 +66,5 @@ public class Checking
 		}
 		
 		return CheckType.getCheckingClass(this.type);
-		
-		//String type = typeNode.getNodeValue();
 	}
 }

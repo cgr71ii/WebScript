@@ -13,6 +13,7 @@ import org.w3c.dom.NodeList;
 import org.xml.sax.SAXException;
 
 import WebScript.Checking.Checking;
+import WebScript.Do.Do;
 
 import org.w3c.dom.Node;
 import org.w3c.dom.Element;
@@ -42,8 +43,13 @@ public class XMLParser
 		
 		if (!this.file.exists())
 		{
-			throw new FileNotFoundException("File " + path + " not found");
+			throw new FileNotFoundException();
 		}
+	}
+	
+	public ArrayList<WebScript> getWebScripts()
+	{
+		return this.wsArray;
 	}
 	
 	public void parse() throws Exception
@@ -66,6 +72,7 @@ public class XMLParser
 			NodeList wsItems = item.getChildNodes();
 			WebScript webScript = null;
 			String url = null;
+			Boolean skipWebScript = false;
 			
 			for (int j = 0; j < wsItems.getLength(); j++)
 			{
@@ -77,13 +84,24 @@ public class XMLParser
 					continue;
 				}
 				
-				if (wsItem.getNodeName() == "url")
+				if (wsItem.getNodeName().equals("url"))
 				{
 					url = new String(wsItem.getTextContent());
 					
-					webScript = new WebScript(url);
+					try
+					{
+						webScript = new WebScript(url);
+					}
+					catch (Exception e)
+					{
+						System.err.println("Skipping WebScript with URL = \"" + url + "\".");
+						
+						skipWebScript = true;
+						
+						break;
+					}
 				}
-				else if (wsItem.getNodeName() == "action")
+				else if (wsItem.getNodeName().equals("action"))
 				{
 					if (url == null)
 					{
@@ -93,8 +111,16 @@ public class XMLParser
 					}
 					
 					action = this.parseAction(wsItem);
+					
+					//System.out.println("Action: " + action.toString());
+					
 					webScript.addAction(action);
 				}
+			}
+			
+			if (skipWebScript)
+			{
+				continue;
 			}
 			
 			if (url == null || url.isEmpty())
@@ -105,6 +131,8 @@ public class XMLParser
 			}
 			
 			System.out.println("URL = " + url);
+			
+			this.wsArray.add(webScript);
 			
 			//Node nUrl = wsItems.item(0);
 			
@@ -117,6 +145,8 @@ public class XMLParser
 	{
 		NodeList aItems = aNode.getChildNodes();
 		Checking checking = new Checking();
+		Do _do = new Do();
+		Boolean checkingFound = false, doFound = false;
 		
 		for (int i = 0; i < aItems.getLength(); i++)
 		{
@@ -127,22 +157,38 @@ public class XMLParser
 				continue;
 			}
 			
-			if (aItem.getNodeName() == "checking")
+			if (aItem.getNodeName().equals("checking"))
 			{
 				checking = checking.parse(aItem);
 				
 				checking.parse(aItem);
 				
 				System.out.println("Checking: " + checking.toString());
-			}
-			else if (aItem.getNodeName() == "do")
-			{
 				
+				checkingFound = true;
+			}
+			else if (aItem.getNodeName().equals("do"))
+			{
+				_do = _do.parse(aItem);
+				
+				_do.parse(aItem);
+				
+				System.out.println("Do: " + _do.toString());
+				
+				doFound = true;
 			}
 		}
 		
-		//Action action = new Action();
-		Action action = null;	// TODO erase me
+		if (!checkingFound)
+		{
+			checking = null;
+		}
+		if (!doFound)
+		{
+			_do = null;
+		}
+		
+		Action action = new Action(checking, _do);
 		
 		return action;
 	}

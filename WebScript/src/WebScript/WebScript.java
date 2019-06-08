@@ -30,7 +30,7 @@ public class WebScript
 		}
 		catch(Exception e)
 		{
-			System.err.println("Could not load the page \"" + this.url + "\"");
+			System.err.println("Could not load the page \"" + this.url + "\".");
 			
 			throw new Exception();
 		}
@@ -44,6 +44,11 @@ public class WebScript
 		}
 		
 		this.actions.get(this.actionIndex++).perform();
+	}
+	
+	public ArrayList<Action> getActions()
+	{
+		return this.actions;
 	}
 	
 	public void addAction(Action action)
