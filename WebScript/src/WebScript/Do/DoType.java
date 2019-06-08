@@ -8,7 +8,8 @@ import WebScript.Checking.CheckingTitle;
 public enum DoType
 {
 	CLICK,
-	WRITE;
+	WRITE,
+	PRINT;
 	
 	public static final Do getDoClass(DoType type)
 	{
@@ -18,6 +19,8 @@ public enum DoType
 				return new DoClick();
 			case WRITE:
 				return new DoWrite();
+			case PRINT:
+				return new DoPrint();
 		}
 		
 		return new Do();

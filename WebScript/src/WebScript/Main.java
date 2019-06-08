@@ -75,7 +75,7 @@ public class Main
 			
 			if (actions.size() == 0)
 			{
-				System.out.println("  - This web script has not actions... skipping.");
+				System.out.printf("  - This web script %shas not actions%s... skipping.\n", AnsiColors.RED, AnsiColors.RESET);
 				
 				continue;
 			}
@@ -90,7 +90,7 @@ public class Main
 				{
 					if (!a.perform())
 					{
-						System.out.println("   - The checking was not successfully... skipping.");
+						System.out.printf("    - The checking was %snot successfully%s... skipping.\n", AnsiColors.RED, AnsiColors.RESET);
 						
 						error = true;
 						
@@ -99,7 +99,7 @@ public class Main
 				}
 				catch (Exception e)
 				{
-					System.out.println("   - Aborting current WebScript.");
+					System.out.printf("    - %sAborting%s current WebScript.\n", AnsiColors.RED, AnsiColors.RESET);
 					
 					error = true;
 					
@@ -109,7 +109,7 @@ public class Main
 			
 			if (!error)
 			{
-				System.out.println("  The current web script finished successfully!");
+				System.out.printf("  The current web script finished %ssuccessfully%s!\n", AnsiColors.GREEN, AnsiColors.RESET);
 			}
 		}
 		

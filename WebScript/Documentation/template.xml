@@ -2,25 +2,24 @@
 
 <WebScripts>
 
+	<!--
 	<WebScript>
 		<url>https://www.google.es/</url>
 		
 		<action>
 			<checking check="title">
-				<!-- The checking is done before perform the concrete action -->
-				
 				<value>Google</value>
 			</checking>
 			
 			<do method="write">
-				<position type="xpath">/html/body/div/div[3]/form/div[2]/div/div[1]/div/div[1]/input</position>
+				<position type="css">.gLFyf</position>
 				<value>Halo 3</value>
 			</do>
 		</action>
 		
 		<action>
 			<do method="click">
-				<position type="xpath">/html/body/div/div[3]/form/div[2]/div/div[3]/center/input[1]</position>
+				<position type="css">.FPdoLc > center:nth-child(1) > input:nth-child(1)</position>
 			</do>
 		</action>
 		
@@ -30,14 +29,7 @@
 			</checking>
 		</action>
 	</WebScript>
-	
-	<WebScript>
-		<url>NonExistentURL.com</url>
-	</WebScript>
-	
-	<WebScript>
-		<url>https://www.google.es</url>
-	</WebScript>
+	-->
 	
 	<WebScript>
 		<url>https://biblioteca.ua.es/es/biblioteca-de-la-universidad-de-alicante.html</url>
@@ -49,6 +41,7 @@
 			
 			<do method="click">
 				<position type="xpath">/html/body/div[3]/div[4]/div/div[2]/p[4]/a[1]</position>
+				<!-- <position type="css">.prestamo</position> -->
 			</do>
 		</action>
 		
@@ -56,6 +49,11 @@
 			<checking check="title">
 				<value>iLink Universidad de Alicante</value>
 			</checking>
+			
+			<do method="print">
+				<position type="xpath">/html/body/div/table[4]/tbody/tr/td/form/table/tbody/tr[2]/td/table/tbody/tr[1]/td[1]/label</position>
+				<value>Nombre botón: "{}".</value>
+			</do>
 		</action>
 	</WebScript>
 	
