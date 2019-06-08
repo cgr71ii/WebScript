@@ -1,5 +1,6 @@
 package WebScript.Locator;
 
+import org.openqa.selenium.By;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -23,13 +24,23 @@ public class Position
 		this.value = "";
 	}
 	
+	public By getBy()
+	{
+		if (this.value.isEmpty())
+		{
+			return null;
+		}
+		
+		return PositionType.getBy(this.type, this.value);
+	}
+	
 	public void parse(Node pNode) throws Exception
 	{
 		NamedNodeMap pNNM = pNode.getAttributes();
 		
 		if (pNNM.getLength() != 1)
 		{
-			System.err.println("Position has to have at least / only the \"type\" attribute.");
+			System.out.println("Position has to have at least / only the \"type\" attribute.");
 			
 			throw new Exception();
 		}
@@ -38,7 +49,7 @@ public class Position
 		
 		if (typeNode == null)
 		{
-			System.err.println("Position has to have the \"type\" attribute, not other.");
+			System.out.println("Position has to have the \"type\" attribute, not other.");
 			
 			throw new Exception();
 		}
@@ -51,11 +62,11 @@ public class Position
 		}
 		catch (Exception e)
 		{
-			System.err.println("The position type can only be: ");
+			System.out.println("The position type can only be: ");
 			
 			for (PositionType t : PositionType.values())
 			{
-				System.err.println(" - " + t.name());
+				System.out.println(" - " + t.name());
 			}
 			
 			throw e;
@@ -65,7 +76,7 @@ public class Position
 		
 		if (this.value == null)
 		{
-			System.err.println("Something went wrong with the value of the position.");
+			System.out.println("Something went wrong with the value of the position.");
 			
 			throw new Exception();
 		}

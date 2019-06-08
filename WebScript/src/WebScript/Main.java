@@ -12,7 +12,7 @@ public class Main
 	
 	public static void printErrorMessageAndExit(int status)
 	{
-		System.err.println("Syntax: java -jar WebScript.jar configuration.xml");
+		System.out.println("Syntax: java -jar WebScript.jar configuration.xml");
 		System.exit(status);
 	}
 	
@@ -31,13 +31,13 @@ public class Main
 		}
 		catch(FileNotFoundException e)
 		{
-			System.err.println("File " + args[0] + " not found...");
+			System.out.println("File " + args[0] + " not found...");
 			
 			System.exit(1);
 		}
 		catch(Exception e)
 		{
-			System.err.println("Something went wrong when creating Parsing object...");
+			System.out.println("Something went wrong when creating Parsing object...");
 			
 			System.exit(1);
 		}
@@ -50,7 +50,7 @@ public class Main
 		}
 		catch(Exception e)
 		{
-			System.err.println("Parsing failed: XML file (" + args[0] + ") contains errors.");
+			System.out.println("Parsing failed: XML file (" + args[0] + ") contains errors.");
 			
 			System.exit(1);
 		}
@@ -61,7 +61,7 @@ public class Main
 		
 		if (webScripts.size() == 0)
 		{
-			System.err.println("XML File (" + args[0] + ") has not any web script!");
+			System.out.println("XML File (" + args[0] + ") has not any web script!");
 			
 			System.exit(1);
 		}
@@ -71,23 +71,45 @@ public class Main
 			int actionCount = 1;
 			ArrayList<Action> actions = ws.getActions();
 			
-			System.out.println("WebScript #" + wsCount++);
+			System.out.println("WebScript #" + wsCount++ + " (" + ws.getURL() + ")");
 			
 			if (actions.size() == 0)
 			{
-				System.err.println("This web script has not actions... skipping.");
+				System.out.println("  - This web script has not actions... skipping.");
 				
 				continue;
 			}
 			
+			Boolean error = false;
+			
 			for (Action a : actions)
 			{
-				System.out.println("Action #" + actionCount++);
+				System.out.println("  Action #" + actionCount++);
 				
-				if (!a.perform())
+				try
 				{
-					System.out.println("The checking was not successfully.");
+					if (!a.perform())
+					{
+						System.out.println("   - The checking was not successfully... skipping.");
+						
+						error = true;
+						
+						break;
+					}
 				}
+				catch (Exception e)
+				{
+					System.out.println("   - Aborting current WebScript.");
+					
+					error = true;
+					
+					break;
+				}
+			}
+			
+			if (!error)
+			{
+				System.out.println("  The current web script finished successfully!");
 			}
 		}
 		

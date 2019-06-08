@@ -94,7 +94,7 @@ public class XMLParser
 					}
 					catch (Exception e)
 					{
-						System.err.println("Skipping WebScript with URL = \"" + url + "\".");
+						System.out.println("Skipping WebScript with URL = \"" + url + "\".");
 						
 						skipWebScript = true;
 						
@@ -105,7 +105,7 @@ public class XMLParser
 				{
 					if (url == null)
 					{
-						System.err.println("The \"url\" node has to be the first node when creating a WebScript.");
+						System.out.println("The \"url\" node has to be the first node when creating a WebScript.");
 						
 						throw new Exception();
 					}
@@ -125,12 +125,12 @@ public class XMLParser
 			
 			if (url == null || url.isEmpty())
 			{
-				System.err.println("WebScript has to have, at least, the node \"url\" set.");
+				System.out.println("WebScript has to have, at least, the node \"url\" set.");
 				
 				throw new Exception();
 			}
 			
-			System.out.println("URL = " + url);
+			//System.out.println("URL = " + url);
 			
 			this.wsArray.add(webScript);
 			
@@ -163,7 +163,7 @@ public class XMLParser
 				
 				checking.parse(aItem);
 				
-				System.out.println("Checking: " + checking.toString());
+				//System.out.println("Checking: " + checking.toString());
 				
 				checkingFound = true;
 			}
@@ -173,7 +173,7 @@ public class XMLParser
 				
 				_do.parse(aItem);
 				
-				System.out.println("Do: " + _do.toString());
+				//System.out.println("Do: " + _do.toString());
 				
 				doFound = true;
 			}

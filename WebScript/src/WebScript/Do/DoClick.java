@@ -2,6 +2,7 @@ package WebScript.Do;
 
 import java.util.ArrayList;
 
+import org.openqa.selenium.WebElement;
 import org.w3c.dom.Node;
 
 import WebScript.Util;
@@ -14,13 +15,19 @@ public class DoClick extends Do
 
 	public DoClick()
 	{
+		super();
+		
 		this.type = DoType.CLICK;
 	}
 
 	@Override
 	public void perform() throws Exception
 	{
+		super.perform();
 		
+		WebElement element = Util.getWebElement(this.driver, this.position);
+		
+		element.click();
 	}
 	
 	@Override
@@ -37,7 +44,7 @@ public class DoClick extends Do
 					this.position.parse(n);
 					break;
 				default:
-					System.err.println("Something went wrong: DoClick.parse(Node).");
+					System.out.println("Something went wrong: DoClick.parse(Node).");
 					throw new Exception();
 			}
 		}

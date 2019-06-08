@@ -2,6 +2,7 @@ package WebScript.Do;
 
 import java.util.ArrayList;
 
+import org.openqa.selenium.WebElement;
 import org.w3c.dom.Node;
 
 import WebScript.Util;
@@ -11,13 +12,19 @@ public class DoWrite extends Do
 
 	public DoWrite()
 	{
+		super();
+		
 		this.type = DoType.WRITE;
 	}
 
 	@Override
 	public void perform() throws Exception
 	{
+		super.perform();
 		
+		WebElement element = Util.getWebElement(this.driver, this.position);
+		
+		element.sendKeys(new CharSequence[] { this.value });
 	}
 	
 	@Override
@@ -37,7 +44,7 @@ public class DoWrite extends Do
 					this.value = n.getTextContent();
 					break;
 				default:
-					System.err.println("Something went wrong: DoWrite.parse(Node).");
+					System.out.println("Something went wrong: DoWrite.parse(Node).");
 					throw new Exception();
 			}
 		}

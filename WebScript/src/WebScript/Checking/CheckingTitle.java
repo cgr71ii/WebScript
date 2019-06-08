@@ -11,13 +11,24 @@ public class CheckingTitle extends Checking
 
 	public CheckingTitle()
 	{
+		super();
+		
 		this.type = CheckType.TITLE;
 	}
 
 	@Override
 	public Boolean check() throws Exception
 	{
-		return true;
+		super.check();
+		
+		String title = this.driver.getTitle();
+		
+		if (title.equals(this.value))
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override
@@ -34,7 +45,7 @@ public class CheckingTitle extends Checking
 					this.value = n.getTextContent();
 					break;
 				default:
-					System.err.println("Something went wrong: CheckingTitle.parse(Node).");
+					System.out.println("Something went wrong: CheckingTitle.parse(Node).");
 					throw new Exception();
 			}
 		}

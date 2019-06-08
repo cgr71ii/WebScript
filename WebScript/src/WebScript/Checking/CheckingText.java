@@ -2,6 +2,7 @@ package WebScript.Checking;
 
 import java.util.ArrayList;
 
+import org.openqa.selenium.WebElement;
 import org.w3c.dom.Node;
 
 import WebScript.Util;
@@ -11,13 +12,25 @@ public class CheckingText extends Checking
 	
 	public CheckingText()
 	{
+		super();
+		
 		this.type = CheckType.TEXT;
 	}
 
 	@Override
 	public Boolean check() throws Exception
 	{
-		return true;
+		super.check();
+		
+		WebElement element = Util.getWebElement(this.driver, this.position);
+		String text = element.getText();
+		
+		if (text.equals(this.value))
+		{
+			return true;
+		}
+		
+		return false;
 	}
 	
 	@Override
@@ -37,7 +50,7 @@ public class CheckingText extends Checking
 					this.value = n.getTextContent();
 					break;
 				default:
-					System.err.println("Something went wrong: CheckingText.parse(Node).");
+					System.out.println("Something went wrong: CheckingText.parse(Node).");
 					throw new Exception();
 			}
 		}

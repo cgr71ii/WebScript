@@ -39,4 +39,24 @@
 		<url>https://www.google.es</url>
 	</WebScript>
 	
+	<WebScript>
+		<url>https://biblioteca.ua.es/es/biblioteca-de-la-universidad-de-alicante.html</url>
+		
+		<action>
+			<checking check="title">
+				<value>Biblioteca de la Universidad de Alicante. Biblioteca Universitaria</value>
+			</checking>
+			
+			<do method="click">
+				<position type="xpath">/html/body/div[3]/div[4]/div/div[2]/p[4]/a[1]</position>
+			</do>
+		</action>
+		
+		<action>
+			<checking check="title">
+				<value>iLink Universidad de Alicante</value>
+			</checking>
+		</action>
+	</WebScript>
+	
 </WebScripts>

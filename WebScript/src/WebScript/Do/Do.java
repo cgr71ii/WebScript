@@ -1,5 +1,6 @@
 package WebScript.Do;
 
+import org.openqa.selenium.WebDriver;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -12,6 +13,8 @@ public class Do
 
 	protected DoType type;
 	
+	protected WebDriver driver;
+	
 	// Fields for checking
 	protected Position position;
 	protected String value;
@@ -20,13 +23,22 @@ public class Do
 	{
 		this.position = new Position();
 		this.value = new String();
+		this.driver = null;
+	}
+	
+	public final void setDriver(WebDriver driver)
+	{
+		this.driver = driver;
 	}
 
 	public void perform() throws Exception
 	{
-		System.err.println("This method has to be overridden.");
-		
-		throw new Exception();
+		if (this.driver == null)
+		{
+			System.out.println("Driver is not set.");
+			
+			throw new Exception();
+		}
 	}
 	
 	public Do parse(Node dNode) throws Exception
@@ -35,7 +47,7 @@ public class Do
 		
 		if (dNNM.getLength() != 1)
 		{
-			System.err.println("\"Do\" node has to have at least / only the \"method\" attribute.");
+			System.out.println("\"Do\" node has to have at least / only the \"method\" attribute.");
 			
 			throw new Exception();
 		}
@@ -44,7 +56,7 @@ public class Do
 		
 		if (typeNode == null)
 		{
-			System.err.println("\"Do\" node has to have the \"method\" attribute, not other.");
+			System.out.println("\"Do\" node has to have the \"method\" attribute, not other.");
 			
 			throw new Exception();
 		}
@@ -57,11 +69,11 @@ public class Do
 		}
 		catch (Exception e)
 		{
-			System.err.println("The \"do\" node type can only be: ");
+			System.out.println("The \"do\" node type can only be: ");
 			
 			for (DoType t : DoType.values())
 			{
-				System.err.println(" - " + t.toString());
+				System.out.println(" - " + t.toString());
 			}
 			
 			throw e;

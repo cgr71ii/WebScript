@@ -3,8 +3,13 @@ package WebScript;
 import java.util.ArrayList;
 import java.util.Arrays;
 
+import org.openqa.selenium.NoSuchElementException;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
+
+import WebScript.Locator.Position;
 
 public class Util
 {
@@ -47,7 +52,7 @@ public class Util
 			{
 				if (onlyAndOnly)
 				{
-					System.err.printf("Node \"%s\" was not expected for node \"%s\".\n", item.getNodeName(), node.getNodeName());
+					System.out.printf("Node \"%s\" was not expected for node \"%s\".\n", item.getNodeName(), node.getNodeName());
 					
 					throw new Exception();
 				}
@@ -60,17 +65,39 @@ public class Util
 		
 		if (res.size() != nodes.length)
 		{
-			System.err.println("Not all nodes expected for \"" + node.getNodeName() + "\" found! Expected:");
+			System.out.println("Not all nodes expected for \"" + node.getNodeName() + "\" found! Expected:");
 			
 			for (String s : nodes)
 			{
-				System.err.println(" - " + s);
+				System.out.println(" - " + s);
 			}
 			
 			throw new Exception();
 		}
 		
 		return res;
+	}
+	
+	public static WebElement getWebElement(WebDriver driver, Position position) throws Exception
+	{
+		try
+		{
+			WebElement element = driver.findElement(position.getBy());
+			
+			return element;
+		}
+		catch (NoSuchElementException e)
+		{
+			System.out.printf("Element with locator = %s not found.\n", position.toString());
+			
+			throw new Exception();
+		}
+		catch (Exception e)
+		{
+			System.out.println("Something went wrong while trying to get a WebElement.");
+			
+			throw new Exception();
+		}
 	}
 	
 }

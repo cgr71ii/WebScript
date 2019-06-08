@@ -1,5 +1,6 @@
 package WebScript.Checking;
 
+import org.openqa.selenium.WebDriver;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
@@ -10,6 +11,8 @@ public class Checking
 {
 	protected CheckType type;
 	
+	protected WebDriver driver;
+	
 	// Fields for checking
 	protected Position position;
 	protected String value;
@@ -18,13 +21,24 @@ public class Checking
 	{
 		this.position = new Position();
 		this.value = new String();
+		this.driver = null;
+	}
+	
+	public final void setDriver(WebDriver driver)
+	{
+		this.driver = driver;
 	}
 	
 	public Boolean check() throws Exception
 	{
-		System.err.println("This method has to be overridden.");
+		if (this.driver == null)
+		{
+			System.out.println("Driver is not set.");
+			
+			throw new Exception();
+		}
 		
-		throw new Exception();
+		return false;
 	}
 	
 	public Checking parse(Node cNode) throws Exception
@@ -33,7 +47,7 @@ public class Checking
 		
 		if (cNNM.getLength() != 1)
 		{
-			System.err.println("\"Checking\" node has to have at least / only the \"check\" attribute.");
+			System.out.println("\"Checking\" node has to have at least / only the \"check\" attribute.");
 			
 			throw new Exception();
 		}
@@ -42,7 +56,7 @@ public class Checking
 		
 		if (typeNode == null)
 		{
-			System.err.println("\"Checking\" node has to have the \"check\" attribute, not other.");
+			System.out.println("\"Checking\" node has to have the \"check\" attribute, not other.");
 			
 			throw new Exception();
 		}
@@ -55,11 +69,11 @@ public class Checking
 		}
 		catch (Exception e)
 		{
-			System.err.println("The \"checking\" node type can only be: ");
+			System.out.println("The \"checking\" node type can only be: ");
 			
 			for (CheckType t : CheckType.values())
 			{
-				System.err.println(" - " + t.toString());
+				System.out.println(" - " + t.toString());
 			}
 			
 			throw e;

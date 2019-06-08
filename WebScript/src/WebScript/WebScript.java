@@ -30,20 +30,15 @@ public class WebScript
 		}
 		catch(Exception e)
 		{
-			System.err.println("Could not load the page \"" + this.url + "\".");
+			System.out.println("Could not load the page \"" + this.url + "\".");
 			
 			throw new Exception();
 		}
 	}
 	
-	public void performNextAction()
+	public String getURL()
 	{
-		if (this.actions.size() >= this.actionIndex)
-		{
-			return;
-		}
-		
-		this.actions.get(this.actionIndex++).perform();
+		return this.url;
 	}
 	
 	public ArrayList<Action> getActions()
@@ -53,6 +48,8 @@ public class WebScript
 	
 	public void addAction(Action action)
 	{
+		action.setDriver(this.driver);
+		
 		this.actions.add(action);
 	}
 }
