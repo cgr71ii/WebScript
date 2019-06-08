@@ -33,6 +33,8 @@ public class XMLParser
 	
 	private ArrayList<WebScript> wsArray;
 	
+	private Integer verbose;
+	
 	public XMLParser(String path) throws Exception
 	{
 		this.dbFactory = DocumentBuilderFactory.newInstance();
@@ -40,11 +42,17 @@ public class XMLParser
 		this.file = new File(this.path);
 		this.dBuilder = this.dbFactory.newDocumentBuilder();
 		this.wsArray = new ArrayList<>();
+		this.verbose = 2;
 		
 		if (!this.file.exists())
 		{
 			throw new FileNotFoundException();
 		}
+	}
+	
+	public Integer getVerbose()
+	{
+		return this.verbose;
 	}
 	
 	public ArrayList<WebScript> getWebScripts()
@@ -59,6 +67,24 @@ public class XMLParser
 		this.doc.getDocumentElement().normalize();
 		
 		NodeList ws = doc.getElementsByTagName("WebScript");
+		NodeList v = doc.getElementsByTagName("verbose");
+		
+		if (v.getLength() == 1)
+		{
+			try
+			{
+				this.verbose = Integer.parseInt(v.item(0).getTextContent());
+				
+				if (this.verbose < 0 || this.verbose > 2)
+				{
+					this.verbose = 2;
+				}
+			}
+			catch (Exception e)
+			{
+				this.verbose = 2;
+			}
+		}
 		
 		for (int i = 0; i < ws.getLength(); i++)
 		{

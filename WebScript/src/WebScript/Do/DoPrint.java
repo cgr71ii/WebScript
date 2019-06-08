@@ -28,6 +28,7 @@ public class DoPrint extends Do
 		String ownValue = new String(this.value);
 		
 		ownValue = ownValue.replaceAll("[{][}]", message);
+		ownValue = ownValue.replaceAll("[\\\\][n]", "\n    ");
 		
 		System.out.println("    " + ownValue);
 	}

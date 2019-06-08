@@ -55,7 +55,10 @@ public class Main
 			System.exit(1);
 		}
 		
-		System.out.println("XML document parsed!");
+		Integer verbose = parser.getVerbose();
+		
+		if (verbose > 0)
+		System.out.println("XML document parsed!\n");
 		
 		ArrayList<WebScript> webScripts = parser.getWebScripts();
 		
@@ -71,6 +74,7 @@ public class Main
 			int actionCount = 1;
 			ArrayList<Action> actions = ws.getActions();
 			
+			if (verbose > 0)
 			System.out.println("WebScript #" + wsCount++ + " (" + ws.getURL() + ")");
 			
 			if (actions.size() == 0)
@@ -84,6 +88,7 @@ public class Main
 			
 			for (Action a : actions)
 			{
+				if (verbose > 1)
 				System.out.println("  Action #" + actionCount++);
 				
 				try
@@ -109,6 +114,7 @@ public class Main
 			
 			if (!error)
 			{
+				if (verbose > 0)
 				System.out.printf("  The current web script finished %ssuccessfully%s!\n", AnsiColors.GREEN, AnsiColors.RESET);
 			}
 		}

@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
+<!-- 
+	<WebScripts>    -> Required
+	
+		<verbose> -> Not required
+			#<verbose>0</verbose> -> No messages if no errors
+			#<verbose>1</verbose> -> No too many messages
+			#<verbose>2</verbose> -> All messages (default)
+	
+		<WebScript> -> Required (at least 1)
+		
+	    	<url> -> Required
+
+			<action>           -> Required (at least 1)
+				<checking>     -> Not required
+					<position> -> Required (it depends of the checking type)
+					<value>    -> Required (it depends of the checking type)
+				<do>           -> Not required
+					<position> -> Required (it depends of the checking type)
+					<value>    -> Required (it depends of the checking type)
+	
+-->
+
 <WebScripts>
 
 	<!--
@@ -33,6 +55,7 @@
 	
 	<WebScript>
 		<url>https://biblioteca.ua.es/es/biblioteca-de-la-universidad-de-alicante.html</url>
+		<verbose>1</verbose>
 		
 		<action>
 			<checking check="title">
@@ -52,7 +75,7 @@
 			
 			<do method="print">
 				<position type="xpath">/html/body/div/table[4]/tbody/tr/td/form/table/tbody/tr[2]/td/table/tbody/tr[1]/td[1]/label</position>
-				<value>Nombre botón: "{}".</value>
+				<value>---------------\n| Nombre botón: "{}".\n---------------</value>
 			</do>
 		</action>
 	</WebScript>
