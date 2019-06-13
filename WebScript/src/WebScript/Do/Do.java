@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import WebScript.DefaultValues;
 import WebScript.Checking.CheckType;
 import WebScript.Checking.Checking;
 import WebScript.Locator.Position;
@@ -14,6 +15,8 @@ public class Do
 	protected DoType type;
 	
 	protected WebDriver driver;
+
+	protected Boolean showOnlyNecessaryErrors;
 	
 	// Fields for checking
 	protected Position position;
@@ -24,11 +27,17 @@ public class Do
 		this.position = new Position();
 		this.value = new String();
 		this.driver = null;
+		this.showOnlyNecessaryErrors = DefaultValues.SHOW_ONLY_NECESSARY_ERRORS;
 	}
 	
 	public final void setDriver(WebDriver driver)
 	{
 		this.driver = driver;
+	}
+	
+	public final void setShowOnlyNecessaryErrors(Boolean showOnlyNecessaryErrors)
+	{
+		this.showOnlyNecessaryErrors = showOnlyNecessaryErrors;
 	}
 
 	public void perform() throws Exception

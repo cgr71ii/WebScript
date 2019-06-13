@@ -1,7 +1,9 @@
 package WebScript;
 
 import java.util.ArrayList;
+import java.util.IllegalFormatException;
 
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
 import WebScript.Checking.CheckType;
@@ -17,29 +19,50 @@ public class Action
 	private ArrayList<Do> _do;
 	
 	private WebDriver driver;
+	
+	private Boolean showOnlyNecessaryErrors;
+	
+	private Integer verbose;
+	
+	private Action()
+	{
+		this.driver = null;
+		this.showOnlyNecessaryErrors = DefaultValues.SHOW_ONLY_NECESSARY_ERRORS;
+		this.verbose = DefaultValues.VERBOSE;
+	}
 
 	public Action(Checking checking, Do _do)
 	{
+		this();
+		
 		this.checking = new ArrayList<>();
 		this._do = new ArrayList<>();
 		
 		this.checking.add(checking);
 		this._do.add(_do);
-		
-		this.driver = null;
 	}
 	
 	public Action(ArrayList<Checking> checking, ArrayList<Do> _do)
 	{
+		this();
+		
 		this.checking = checking;
 		this._do = _do;
-		
-		this.driver = null;
 	}
 	
 	public final void setDriver(WebDriver driver)
 	{
 		this.driver = driver;
+	}
+	
+	public final void setVerbose(Integer verbose)
+	{
+		this.verbose = verbose;
+	}
+	
+	public final void setShowOnlyNecessaryErrors(Boolean showOnlyNecessaryErrors)
+	{
+		this.showOnlyNecessaryErrors = showOnlyNecessaryErrors;
 	}
 	
 	public Boolean perform() throws Exception
@@ -56,7 +79,7 @@ public class Action
 		return checking;
 	}
 	
-	private Boolean performChecking() throws Exception
+	public Boolean performChecking() throws Exception
 	{
 		if (this.checking == null)
 		{
@@ -78,31 +101,16 @@ public class Action
 			}
 			catch (Exception e)
 			{
-				System.out.println("Something went wrong while performing the checking (Checking #" + (i + 1) + ").");
+				System.out.printf("  %sSomething went wrong%s while performing the checking (Checking #%d).\n", AnsiColors.RED, AnsiColors.RESET, i + 1);
 				
 				throw new Exception();
 			}
 		}
 		
 		return true;
-		
-		/*
-		this.checking.setDriver(this.driver);
-		
-		try
-		{
-			return this.checking.check();
-		}
-		catch (Exception e)
-		{
-			System.out.println("Something went wrong while performing the checking.");
-			
-			throw new Exception();
-		}
-		*/
 	}
 	
-	private void performMethod() throws Exception
+	public void performMethod() throws Exception
 	{
 		if (this._do == null)
 		{
@@ -116,6 +124,7 @@ public class Action
 		for (int i = 0; i < this._do.size(); i++)
 		{
 			this._do.get(i).setDriver(this.driver);
+			this._do.get(i).setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors);
 			
 			try
 			{
@@ -123,11 +132,15 @@ public class Action
 				
 				done = true;
 				
+				if (this.verbose > 1)
+				System.out.printf("  Concrete action #%d was executed %ssuccessfully%s!\n", i + 1, AnsiColors.GREEN, AnsiColors.RESET);
+				
 				break;
 			}
 			catch (Exception e)
 			{
-				System.out.println("Something went wrong while performing the task (\"do\" node #" + (i + 1) + ").");
+				if (!this.showOnlyNecessaryErrors && this.verbose > 1)
+				System.out.printf("  %sSomething went wrong%s while performing the task (\"do\" node #%d).\n", AnsiColors.RED, AnsiColors.RESET, i + 1);
 				
 				//throw new Exception();
 			}
@@ -135,6 +148,8 @@ public class Action
 		
 		if (!done)
 		{
+			System.out.println("  None concrete action could be executed...");
+			
 			throw new Exception();
 		}
 		

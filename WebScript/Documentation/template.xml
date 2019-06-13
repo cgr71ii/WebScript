@@ -7,6 +7,10 @@
 			#<verbose>0</verbose> -> No messages if no errors
 			#<verbose>1</verbose> -> No too many messages
 			#<verbose>2</verbose> -> All messages (default)
+		
+		<showOnlyNecessaryErrors> -> Not required
+			#<showOnlyNecessaryErrors>true</showOnlyNecessaryErrors>  -> It will not show all error messages (e.g. a concrete action failed and a error should be shown, but if any other action does not fail, error will not be shown)
+			#<showOnlyNecessaryErrors>false</showOnlyNecessaryErrors> -> It will show all error messages but it does not mean that the execution will stop if any error is shown (e.g. a concrete action failed and a error will be shown, but the execution will continue if other concrete action is successful) (default)
 	
 		<WebScript> -> Required (at least 1)
 		
@@ -27,6 +31,7 @@
 	<!--
 	<WebScript>
 		<url>https://www.google.es/</url>
+		<showOnlyNecessaryErrors>false</showOnlyNecessaryErrors>
 		
 		// Multiple checks, one concrete action
 		<action>
@@ -76,7 +81,8 @@
 	
 	<WebScript>
 		<url>https://biblioteca.ua.es/es/biblioteca-de-la-universidad-de-alicante.html</url>
-		<verbose>1</verbose>
+		<verbose>2</verbose>
+		<showOnlyNecessaryErrors>true</showOnlyNecessaryErrors>
 		
 		<action>
 			<checking check="text">
@@ -88,10 +94,10 @@
 			</checking>
 			
 			<do method="click">
-				<position type="xpath">/html/body/div[3]/div[4]/div/div[2]/p[4]/a[1]</position>
+				<position type="xpath">/html/body/div[3]/div[4]/div/div[2]/p[4]/p[5]</position>
 			</do>
 			<do method="click">
-				<position type="xpath">/html/body/div[3]/div[4]/div/div[2]/p[4]/p[1]</position>
+				<position type="xpath">/html/body/div[3]/div[4]/div/div[2]/p[4]/a[1]</position>
 			</do>
 		</action>
 		

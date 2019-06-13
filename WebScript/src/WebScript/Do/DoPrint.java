@@ -22,7 +22,7 @@ public class DoPrint extends Do
 	{
 		super.perform();
 		
-		WebElement element = Util.getWebElement(this.driver, this.position);
+		WebElement element = Util.getWebElement(this.driver, this.position, this.showOnlyNecessaryErrors);
 		String message = element.getText();
 		
 		String ownValue = new String(this.value);

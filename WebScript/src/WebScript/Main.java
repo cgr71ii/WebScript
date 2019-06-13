@@ -56,6 +56,7 @@ public class Main
 		}
 		
 		Integer verbose = parser.getVerbose();
+		//Boolean showOnlyNecessaryErrors = parser.getShowOnlyNecessaryErrors();
 		
 		if (verbose > 0)
 		System.out.println("XML document parsed!\n");
@@ -71,52 +72,10 @@ public class Main
 		
 		for (WebScript ws : webScripts)
 		{
-			int actionCount = 1;
-			ArrayList<Action> actions = ws.getActions();
-			
 			if (verbose > 0)
 			System.out.println("WebScript #" + wsCount++ + " (" + ws.getURL() + ")");
 			
-			if (actions.size() == 0)
-			{
-				System.out.printf("  - This web script %shas not actions%s... skipping.\n", AnsiColors.RED, AnsiColors.RESET);
-				
-				continue;
-			}
-			
-			Boolean error = false;
-			
-			for (Action a : actions)
-			{
-				if (verbose > 1)
-				System.out.println("  Action #" + actionCount++);
-				
-				try
-				{
-					if (!a.perform())
-					{
-						System.out.printf("    - The checking was %snot successfully%s at action #%d... skipping.\n", AnsiColors.RED, AnsiColors.RESET, actionCount - 1);
-						
-						error = true;
-						
-						break;
-					}
-				}
-				catch (Exception e)
-				{
-					System.out.printf("    - %sAborting%s current WebScript.\n", AnsiColors.RED, AnsiColors.RESET);
-					
-					error = true;
-					
-					break;
-				}
-			}
-			
-			if (!error)
-			{
-				if (verbose > 0)
-				System.out.printf("  The current web script finished %ssuccessfully%s!\n", AnsiColors.GREEN, AnsiColors.RESET);
-			}
+			ws.run();
 		}
 		
 		System.exit(0);

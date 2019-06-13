@@ -35,6 +35,8 @@ public class XMLParser
 	
 	private Integer verbose;
 	
+	private Boolean showOnlyNecessaryErrors;
+	
 	public XMLParser(String path) throws Exception
 	{
 		this.dbFactory = DocumentBuilderFactory.newInstance();
@@ -42,7 +44,8 @@ public class XMLParser
 		this.file = new File(this.path);
 		this.dBuilder = this.dbFactory.newDocumentBuilder();
 		this.wsArray = new ArrayList<>();
-		this.verbose = 2;
+		this.verbose = DefaultValues.VERBOSE;
+		this.showOnlyNecessaryErrors = DefaultValues.SHOW_ONLY_NECESSARY_ERRORS;
 		
 		if (!this.file.exists())
 		{
@@ -53,6 +56,11 @@ public class XMLParser
 	public Integer getVerbose()
 	{
 		return this.verbose;
+	}
+	
+	public Boolean getShowOnlyNecessaryErrors()
+	{
+		return this.showOnlyNecessaryErrors;
 	}
 	
 	public ArrayList<WebScript> getWebScripts()
@@ -68,6 +76,7 @@ public class XMLParser
 		
 		NodeList ws = doc.getElementsByTagName("WebScript");
 		NodeList v = doc.getElementsByTagName("verbose");
+		NodeList sone = doc.getElementsByTagName("showOnlyNecessaryErrors");
 		
 		if (v.getLength() == 1)
 		{
@@ -75,14 +84,25 @@ public class XMLParser
 			{
 				this.verbose = Integer.parseInt(v.item(0).getTextContent());
 				
-				if (this.verbose < 0 || this.verbose > 2)
+				if (this.verbose < DefaultValues.VERBOSE_MIN || this.verbose > DefaultValues.VERBOSE_MAX)
 				{
-					this.verbose = 2;
+					this.verbose = DefaultValues.VERBOSE;
 				}
 			}
 			catch (Exception e)
 			{
-				this.verbose = 2;
+				this.verbose = DefaultValues.VERBOSE;
+			}
+		}
+		if (sone.getLength() == 1)
+		{
+			try
+			{
+				this.showOnlyNecessaryErrors = Boolean.parseBoolean(sone.item(0).getTextContent());
+			}
+			catch (Exception e)
+			{
+				this.showOnlyNecessaryErrors = DefaultValues.SHOW_ONLY_NECESSARY_ERRORS;
 			}
 		}
 		
@@ -157,6 +177,9 @@ public class XMLParser
 			}
 			
 			//System.out.println("URL = " + url);
+			
+			webScript.setVerbose(this.verbose);
+			webScript.setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors);
 			
 			this.wsArray.add(webScript);
 			

@@ -16,12 +16,18 @@ public class WebScript
 	
 	private String url;
 	
+	private Integer verbose;
+	
+	private Boolean showOnlyNecessaryErrors;
+	
 	public WebScript(String url) throws Exception
 	{
 		this.url = new String(url);
 		this.driver = new HtmlUnitDriver();
 		this.actions = new ArrayList<>();
 		this.actionIndex = 0;
+		this.verbose = DefaultValues.VERBOSE;
+		this.showOnlyNecessaryErrors = DefaultValues.SHOW_ONLY_NECESSARY_ERRORS;
 		
 		// Loads the page
 		try
@@ -34,6 +40,16 @@ public class WebScript
 			
 			throw new Exception();
 		}
+	}
+	
+	public void setVerbose(Integer verbose)
+	{
+		this.verbose = verbose;
+	}
+	
+	public void setShowOnlyNecessaryErrors(Boolean showOnlyNecessaryErrors)
+	{
+		this.showOnlyNecessaryErrors = showOnlyNecessaryErrors;
 	}
 	
 	public String getURL()
@@ -51,5 +67,68 @@ public class WebScript
 		action.setDriver(this.driver);
 		
 		this.actions.add(action);
+	}
+	
+	public Boolean run()
+	{
+		if (this.actions.size() == 0)
+		{
+			System.out.printf("  - This web script %shas not actions%s... skipping.\n", AnsiColors.RED, AnsiColors.RESET);
+			
+			return false;
+		}
+		
+		Boolean error = false;
+		Integer actionCount = 1;
+		
+		for (Action a : this.actions)
+		{
+			a.setVerbose(this.verbose);
+			a.setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors);
+			
+			if (this.verbose > 1)
+			System.out.println("  Action #" + actionCount++);
+			
+			try
+			{
+				if (!a.performChecking())
+				{
+					System.out.printf("    - The checking was %snot successfully%s at action #%d... skipping.\n", AnsiColors.RED, AnsiColors.RESET, actionCount - 1);
+					
+					error = true;
+					
+					break;
+				}
+			}
+			catch (Exception e)
+			{
+				System.out.printf("    - %sAborting%s current WebScript.\n", AnsiColors.RED, AnsiColors.RESET);
+				
+				error = true;
+				
+				break;
+			}
+			
+			try
+			{
+				a.performMethod();
+			}
+			catch (Exception e)
+			{
+				
+			}
+		}
+		
+		if (!error)
+		{
+			if (this.verbose > 0)
+			System.out.printf("  The current web script %sfinished successfully%s!\n", AnsiColors.GREEN, AnsiColors.RESET);
+			
+			return true;
+		}
+		
+		System.out.printf("  The current web script %snot finished successfully%s...\n", AnsiColors.RED, AnsiColors.RESET);
+		
+		return false;
 	}
 }

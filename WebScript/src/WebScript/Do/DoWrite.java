@@ -22,7 +22,7 @@ public class DoWrite extends Do
 	{
 		super.perform();
 		
-		WebElement element = Util.getWebElement(this.driver, this.position);
+		WebElement element = Util.getWebElement(this.driver, this.position, this.showOnlyNecessaryErrors);
 		
 		element.sendKeys(new CharSequence[] { this.value });
 	}
