@@ -95,7 +95,7 @@ public class Main
 				{
 					if (!a.perform())
 					{
-						System.out.printf("    - The checking was %snot successfully%s... skipping.\n", AnsiColors.RED, AnsiColors.RESET);
+						System.out.printf("    - The checking was %snot successfully%s at action #%d... skipping.\n", AnsiColors.RED, AnsiColors.RESET, actionCount - 1);
 						
 						error = true;
 						

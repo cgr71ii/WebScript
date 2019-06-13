@@ -1,5 +1,7 @@
 package WebScript;
 
+import java.util.ArrayList;
+
 import org.openqa.selenium.WebDriver;
 
 import WebScript.Checking.CheckType;
@@ -10,16 +12,28 @@ import WebScript.Do.DoType;
 public class Action
 {
 	
-	private Checking checking;
+	private ArrayList<Checking> checking;
 	
-	private Do _do;
+	private ArrayList<Do> _do;
 	
 	private WebDriver driver;
 
 	public Action(Checking checking, Do _do)
 	{
+		this.checking = new ArrayList<>();
+		this._do = new ArrayList<>();
+		
+		this.checking.add(checking);
+		this._do.add(_do);
+		
+		this.driver = null;
+	}
+	
+	public Action(ArrayList<Checking> checking, ArrayList<Do> _do)
+	{
 		this.checking = checking;
 		this._do = _do;
+		
 		this.driver = null;
 	}
 	
@@ -51,6 +65,28 @@ public class Action
 			return true;
 		}
 		
+		for (int i = 0; i < this.checking.size(); i++)
+		{
+			this.checking.get(i).setDriver(this.driver);
+			
+			try
+			{
+				if (!this.checking.get(i).check())
+				{
+					throw new Exception();
+				}
+			}
+			catch (Exception e)
+			{
+				System.out.println("Something went wrong while performing the checking (Checking #" + (i + 1) + ").");
+				
+				throw new Exception();
+			}
+		}
+		
+		return true;
+		
+		/*
 		this.checking.setDriver(this.driver);
 		
 		try
@@ -63,6 +99,7 @@ public class Action
 			
 			throw new Exception();
 		}
+		*/
 	}
 	
 	private void performMethod() throws Exception
@@ -74,6 +111,34 @@ public class Action
 			return;
 		}
 		
+		Boolean done = false;
+		
+		for (int i = 0; i < this._do.size(); i++)
+		{
+			this._do.get(i).setDriver(this.driver);
+			
+			try
+			{
+				this._do.get(i).perform();
+				
+				done = true;
+				
+				break;
+			}
+			catch (Exception e)
+			{
+				System.out.println("Something went wrong while performing the task (\"do\" node #" + (i + 1) + ").");
+				
+				//throw new Exception();
+			}
+		}
+		
+		if (!done)
+		{
+			throw new Exception();
+		}
+		
+		/*
 		this._do.setDriver(this.driver);
 		
 		try
@@ -86,6 +151,7 @@ public class Action
 			
 			throw new Exception();
 		}
+		*/
 	}
 	
 	@Override

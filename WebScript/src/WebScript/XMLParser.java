@@ -170,12 +170,14 @@ public class XMLParser
 	private Action parseAction(Node aNode) throws Exception
 	{
 		NodeList aItems = aNode.getChildNodes();
-		Checking checking = new Checking();
-		Do _do = new Do();
+		ArrayList<Checking> alChecking = new ArrayList<>();
+		ArrayList<Do> alDo = new ArrayList<>();
 		Boolean checkingFound = false, doFound = false;
 		
 		for (int i = 0; i < aItems.getLength(); i++)
 		{
+			Checking checking = new Checking();
+			Do _do = new Do();
 			Node aItem = aItems.item(i);
 			
 			if (aItem.getNodeType() != Node.ELEMENT_NODE)
@@ -191,6 +193,8 @@ public class XMLParser
 				
 				//System.out.println("Checking: " + checking.toString());
 				
+				alChecking.add(checking);
+				
 				checkingFound = true;
 			}
 			else if (aItem.getNodeName().equals("do"))
@@ -201,20 +205,22 @@ public class XMLParser
 				
 				//System.out.println("Do: " + _do.toString());
 				
+				alDo.add(_do);
+				
 				doFound = true;
 			}
 		}
 		
 		if (!checkingFound)
 		{
-			checking = null;
+			alChecking = null;
 		}
 		if (!doFound)
 		{
-			_do = null;
+			alDo = null;
 		}
 		
-		Action action = new Action(checking, _do);
+		Action action = new Action(alChecking, alDo);
 		
 		return action;
 	}

@@ -28,15 +28,36 @@
 	<WebScript>
 		<url>https://www.google.es/</url>
 		
+		// Multiple checks, one concrete action
 		<action>
+			// All checks need to be successful to run
 			<checking check="title">
 				<value>Google</value>
 			</checking>
+			<checking check="text">
+				<position type="css">.FPdoLc > center:nth-child(1) > input:nth-child(1)</position>
+				<value>Buscar con Google</value>
+			</checking>
 			
+			// Trying to execute first concrete action
+			<do method="write">
+				<position type="css">.gLFyf2</position>
+				<value>Halo 3</value>
+			</do>
+			
+			// This will be executed if the first is not successful
+			// If this "do" is executed, next do's will not be executed (despite it will run or not)!
 			<do method="write">
 				<position type="css">.gLFyf</position>
 				<value>Halo 3</value>
 			</do>
+			
+			<do method="write">
+				<position type="css">.gLFyf3</position>
+				<value>Halo 3</value>
+			</do>
+			
+			// If none "do" is executed, the action will stop the web script
 		</action>
 		
 		<action>
@@ -58,13 +79,19 @@
 		<verbose>1</verbose>
 		
 		<action>
+			<checking check="text">
+				<position type="css">.subapartado > strong:nth-child(1)</position>
+				<value>Catálogo de la Biblioteca</value>
+			</checking>
 			<checking check="title">
 				<value>Biblioteca de la Universidad de Alicante. Biblioteca Universitaria</value>
 			</checking>
 			
 			<do method="click">
 				<position type="xpath">/html/body/div[3]/div[4]/div/div[2]/p[4]/a[1]</position>
-				<!-- <position type="css">.prestamo</position> -->
+			</do>
+			<do method="click">
+				<position type="xpath">/html/body/div[3]/div[4]/div/div[2]/p[4]/p[1]</position>
 			</do>
 		</action>
 		
@@ -72,6 +99,7 @@
 			<checking check="title">
 				<value>iLink Universidad de Alicante</value>
 			</checking>
+			
 			
 			<do method="print">
 				<position type="xpath">/html/body/div/table[4]/tbody/tr/td/form/table/tbody/tr[2]/td/table/tbody/tr[1]/td[1]/label</position>
