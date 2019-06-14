@@ -28,10 +28,12 @@
 
 <WebScripts>
 
+	<verbose>2</verbose>
+	<showOnlyNecessaryErrors>true</showOnlyNecessaryErrors>
+
 	<!--
 	<WebScript>
 		<url>https://www.google.es/</url>
-		<showOnlyNecessaryErrors>false</showOnlyNecessaryErrors>
 		
 		// Multiple checks, one concrete action
 		<action>
@@ -81,8 +83,6 @@
 	
 	<WebScript>
 		<url>https://biblioteca.ua.es/es/biblioteca-de-la-universidad-de-alicante.html</url>
-		<verbose>2</verbose>
-		<showOnlyNecessaryErrors>true</showOnlyNecessaryErrors>
 		
 		<action>
 			<checking check="text">

@@ -2,7 +2,6 @@ package WebScript;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.ArrayList;
 
 import javax.xml.parsers.DocumentBuilderFactory;
@@ -10,13 +9,11 @@ import javax.xml.parsers.DocumentBuilder;
 
 import org.w3c.dom.Document;
 import org.w3c.dom.NodeList;
-import org.xml.sax.SAXException;
 
 import WebScript.Checking.Checking;
 import WebScript.Do.Do;
 
 import org.w3c.dom.Node;
-import org.w3c.dom.Element;
 
 public class XMLParser
 {
@@ -77,6 +74,19 @@ public class XMLParser
 		NodeList ws = doc.getElementsByTagName("WebScript");
 		NodeList v = doc.getElementsByTagName("verbose");
 		NodeList sone = doc.getElementsByTagName("showOnlyNecessaryErrors");
+		
+		if (v.getLength() > 1)
+		{
+			System.out.println("The \"verbose\" node can only appear once.");
+			
+			throw new Exception();
+		}
+		if (sone.getLength() > 1)
+		{
+			System.out.println("The \"showOnlyNecessaryErrors\" node can only appear once.");
+			
+			throw new Exception();
+		}
 		
 		if (v.getLength() == 1)
 		{

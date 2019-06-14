@@ -3,10 +3,6 @@ package WebScript;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.firefox.FirefoxDriver;
-import org.openqa.selenium.htmlunit.HtmlUnitDriver;
-
 public class Main
 {
 	
@@ -59,7 +55,11 @@ public class Main
 		//Boolean showOnlyNecessaryErrors = parser.getShowOnlyNecessaryErrors();
 		
 		if (verbose > 0)
-		System.out.println("XML document parsed!\n");
+		{
+			System.out.println("XML document parsed!");
+			
+			System.out.println();
+		}
 		
 		ArrayList<WebScript> webScripts = parser.getWebScripts();
 		
@@ -76,6 +76,7 @@ public class Main
 			System.out.println("WebScript #" + wsCount++ + " (" + ws.getURL() + ")");
 			
 			ws.run();
+			ws.quitDriver();
 		}
 		
 		System.exit(0);

@@ -6,9 +6,6 @@ import org.openqa.selenium.WebElement;
 import org.w3c.dom.Node;
 
 import WebScript.Util;
-import WebScript.Checking.CheckType;
-import WebScript.Checking.Checking;
-import WebScript.Checking.CheckingTitle;
 
 public class DoClick extends Do
 {

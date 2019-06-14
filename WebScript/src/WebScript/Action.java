@@ -1,15 +1,11 @@
 package WebScript;
 
 import java.util.ArrayList;
-import java.util.IllegalFormatException;
 
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 
-import WebScript.Checking.CheckType;
 import WebScript.Checking.Checking;
 import WebScript.Do.Do;
-import WebScript.Do.DoType;
 
 public class Action
 {
@@ -133,7 +129,7 @@ public class Action
 				done = true;
 				
 				if (this.verbose > 1)
-				System.out.printf("  Concrete action #%d was executed %ssuccessfully%s!\n", i + 1, AnsiColors.GREEN, AnsiColors.RESET);
+				System.out.printf("    Concrete action #%d was executed %ssuccessfully%s!\n", i + 1, AnsiColors.GREEN, AnsiColors.RESET);
 				
 				break;
 			}
@@ -148,6 +144,7 @@ public class Action
 		
 		if (!done)
 		{
+			if (!this.showOnlyNecessaryErrors && verbose > 0)
 			System.out.println("  None concrete action could be executed...");
 			
 			throw new Exception();

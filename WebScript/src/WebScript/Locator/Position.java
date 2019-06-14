@@ -4,8 +4,6 @@ import org.openqa.selenium.By;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
-import WebScript.Checking.CheckType;
-
 public class Position
 {
 	private PositionType type;

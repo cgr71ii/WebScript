@@ -5,8 +5,6 @@ import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
 import WebScript.DefaultValues;
-import WebScript.Checking.CheckType;
-import WebScript.Checking.Checking;
 import WebScript.Locator.Position;
 
 public class Do

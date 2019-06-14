@@ -12,8 +12,6 @@ public class WebScript
 	
 	private ArrayList<Action> actions;
 	
-	private Integer actionIndex;
-	
 	private String url;
 	
 	private Integer verbose;
@@ -25,9 +23,10 @@ public class WebScript
 		this.url = new String(url);
 		this.driver = new HtmlUnitDriver();
 		this.actions = new ArrayList<>();
-		this.actionIndex = 0;
 		this.verbose = DefaultValues.VERBOSE;
 		this.showOnlyNecessaryErrors = DefaultValues.SHOW_ONLY_NECESSARY_ERRORS;
+		
+		Util.turnOffWarnings();
 		
 		// Loads the page
 		try
@@ -97,6 +96,7 @@ public class WebScript
 					
 					error = true;
 					
+					// Stop the current web script -> checking failed
 					break;
 				}
 			}
@@ -113,9 +113,13 @@ public class WebScript
 			{
 				a.performMethod();
 			}
-			catch (Exception e)
+			catch (Exception e2)
 			{
+				System.out.printf("    - %sAborting%s current WebScript.\n", AnsiColors.RED, AnsiColors.RESET);
 				
+				error = true;
+				
+				break;
 			}
 		}
 		
@@ -131,4 +135,14 @@ public class WebScript
 		
 		return false;
 	}
+	
+	public void quitDriver()
+	{
+		if (this.driver != null)
+		{
+			this.driver.close();
+			this.driver.quit();
+		}
+	}
+	
 }

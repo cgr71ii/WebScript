@@ -1,10 +1,5 @@
 package WebScript.Do;
 
-import WebScript.Checking.CheckType;
-import WebScript.Checking.Checking;
-import WebScript.Checking.CheckingText;
-import WebScript.Checking.CheckingTitle;
-
 public enum DoType
 {
 	CLICK,
