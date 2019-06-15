@@ -52,14 +52,14 @@ public class Do
 	{
 		NamedNodeMap dNNM = dNode.getAttributes();
 		
-		if (dNNM.getLength() != 1)
+		if (dNNM.getLength() != 1 && dNNM.getLength() != 2)
 		{
 			System.out.println("\"Do\" node has to have at least / only the \"method\" attribute.");
 			
 			throw new Exception();
 		}
 		
-		Node typeNode = dNNM.getNamedItem("method"); 
+		Node typeNode = dNNM.getNamedItem("method");
 		
 		if (typeNode == null)
 		{

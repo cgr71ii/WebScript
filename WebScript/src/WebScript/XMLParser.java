@@ -206,6 +206,7 @@ public class XMLParser
 		ArrayList<Checking> alChecking = new ArrayList<>();
 		ArrayList<Do> alDo = new ArrayList<>();
 		Boolean checkingFound = false, doFound = false;
+		Boolean doRunAny = DefaultValues.DO_RUN_ANY;
 		
 		for (int i = 0; i < aItems.getLength(); i++)
 		{
@@ -224,8 +225,6 @@ public class XMLParser
 				
 				checking.parse(aItem);
 				
-				//System.out.println("Checking: " + checking.toString());
-				
 				alChecking.add(checking);
 				
 				checkingFound = true;
@@ -236,11 +235,34 @@ public class XMLParser
 				
 				_do.parse(aItem);
 				
-				//System.out.println("Do: " + _do.toString());
-				
 				alDo.add(_do);
 				
 				doFound = true;
+			}
+			else if (aItem.getNodeName().equals("doRun"))
+			{
+				String doRunAnyAux = aItem.getTextContent();
+				
+				switch (doRunAnyAux.toLowerCase())
+				{
+					case "all":
+						doRunAny = false;
+						break;
+					case "any":
+						doRunAny = true;
+						break;
+					default:
+						System.out.println("Node \"doRun\" can only be:");
+						System.out.println("  - any");
+						System.out.println("  - all");
+						
+						throw new Exception();
+				}
+			}
+			else
+			{
+				if (!this.showOnlyNecessaryErrors && this.verbose > 1)
+				System.out.println("Node \"" + aItem.getNodeName() + "\" unexpected, but still parsing...");
 			}
 		}
 		
@@ -254,6 +276,8 @@ public class XMLParser
 		}
 		
 		Action action = new Action(alChecking, alDo);
+		
+		action.setDoRunAny(doRunAny);
 		
 		return action;
 	}

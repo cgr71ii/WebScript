@@ -9,4 +9,6 @@ public class DefaultValues
 	
 	public final static Boolean SHOW_ONLY_NECESSARY_ERRORS = false;
 	
+	public final static Boolean DO_RUN_ANY = true;
+	
 }

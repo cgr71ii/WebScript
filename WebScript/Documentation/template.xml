@@ -162,6 +162,37 @@
 				<value type="endvar:PATH">Title: {t}\nPATH envvar: {}</value>
 			</do>
 		</action>
+		
+		<action>
+			<doRun>any</doRun>
+			
+			<do method="print">
+				<value>First print!</value>
+			</do>
+			<do method="print">
+				<value>Second print!</value>
+			</do>
+		</action>
+		
+		<action>
+			<doRun>all</doRun>
+			
+			<do method="print">
+				<value>Third print!</value>
+			</do>
+			<do method="print">
+				<value>Fourth print!</value>
+			</do>
+		</action>
+		
+		<action>
+			<do method="print">
+				<value>Fifth print!</value>
+			</do>
+			<do method="print">
+				<value>Sixth print!</value>
+			</do>
+		</action>
 	</WebScript>
 	
 </WebScripts>

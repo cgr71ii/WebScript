@@ -21,11 +21,14 @@ public class Action
 	
 	private Integer verbose;
 	
+	private Boolean doRunAny;
+	
 	private Action()
 	{
 		this.driver = null;
 		this.showOnlyNecessaryErrors = DefaultValues.SHOW_ONLY_NECESSARY_ERRORS;
 		this.verbose = DefaultValues.VERBOSE;
+		this.doRunAny = DefaultValues.DO_RUN_ANY;
 	}
 
 	public Action(Checking checking, Do _do)
@@ -37,6 +40,8 @@ public class Action
 		
 		this.checking.add(checking);
 		this._do.add(_do);
+		
+		this.doRunAny = DefaultValues.DO_RUN_ANY;
 	}
 	
 	public Action(ArrayList<Checking> checking, ArrayList<Do> _do)
@@ -45,6 +50,13 @@ public class Action
 		
 		this.checking = checking;
 		this._do = _do;
+		
+		this.doRunAny = DefaultValues.DO_RUN_ANY;
+	}
+	
+	public final void setDoRunAny(Boolean doRunAny)
+	{
+		this.doRunAny = doRunAny;
 	}
 	
 	public final void setDriver(WebDriver driver)
@@ -147,21 +159,30 @@ public class Action
 				if (this.verbose > 1)
 				System.out.printf("    Concrete action #%d was executed %ssuccessfully%s!\n", i + 1, AnsiColors.GREEN, AnsiColors.RESET);
 				
-				break;
+				if (this.doRunAny)
+				{
+					break;
+				}
 			}
 			catch (Exception e)
 			{
 				if (!this.showOnlyNecessaryErrors && this.verbose > 1)
 				System.out.printf("  %sSomething went wrong%s while performing the task (\"do\" node #%d).\n", AnsiColors.RED, AnsiColors.RESET, i + 1);
 				
-				//throw new Exception();
+				if (!this.doRunAny)
+				{
+					if (!this.showOnlyNecessaryErrors && verbose > 0)
+					System.out.printf("  %sNot all actions could be executed%s (failed at action #%d)...\n", AnsiColors.RED, AnsiColors.RESET, i + 1);
+					
+					throw new Exception();
+				}
 			}
 		}
 		
 		if (!done)
 		{
 			if (!this.showOnlyNecessaryErrors && verbose > 0)
-			System.out.println("  None concrete action could be executed...");
+			System.out.printf("  %sNone concrete action could be executed%s...\n", AnsiColors.RED, AnsiColors.RESET);
 			
 			throw new Exception();
 		}
