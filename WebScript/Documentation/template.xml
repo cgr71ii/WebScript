@@ -112,6 +112,50 @@
 				<value>---------------\n| Nombre botón: "{}".\n---------------</value>
 			</do>
 		</action>
+		
+		<action>
+			<do method="printImage">
+				<position type="xpath">/html/body/div/table[1]/tbody/tr/td[1]/img</position>
+			</do>
+		</action>
+		
+		<action>
+			<!-- If the "if" checking is not valid, execution will continue with the next action -->
+			<!-- If there are other checkings above or below the "if" checking, they will be executed too, and all checkings have to be valid to continue with this action or next (or not valid if there are other "if") -->
+			<!-- If there are multiple "if", all of them have to be valid to execute the current action (AND operation > OR operation) -->
+			<checking check="if">
+				<position type="xpath">/html/body/div/table[4]/tbody/tr/td/form/table/tbody/tr[1]/td</position>
+				<value>Seleccionar algunos o todos los títulos para renovar</value>
+			</checking>
+			<checking check="if">
+				<position type="xpath">/html/body/div/p/table/tbody/tr[1]/td/font/strong[3]</position>
+				<value>LISTAR DOCUMENTOS PRESTADOS.</value>
+			</checking>
+		
+			<do method="print">
+				<position type="xpath">/html</position>
+				<value>All "if's" are ok!</value>
+			</do>
+		</action>
+		
+		<action>
+			<checking check="if">
+				<position type="xpath">/html</position>
+				<value>This action will be skipped!</value>
+			</checking>
+			
+			<do method="print">
+				<position type="xpath">/html</position>
+				<value>This will never be printed!!! D:</value>
+			</do>
+		</action>
+		
+		<action>
+			<do method="print">
+				<position type="xpath">/html</position>
+				<value>Despite last action failed, here we are, because we used "if" instruction :)</value>
+			</do>
+		</action>
 	</WebScript>
 	
 </WebScripts>

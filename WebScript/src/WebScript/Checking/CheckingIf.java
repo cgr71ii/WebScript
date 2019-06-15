@@ -7,14 +7,14 @@ import org.w3c.dom.Node;
 
 import WebScript.Util;
 
-public class CheckingText extends Checking
+public class CheckingIf extends Checking
 {
-	
-	public CheckingText()
+
+	public CheckingIf()
 	{
 		super();
 		
-		this.type = CheckType.TEXT;
+		this.type = CheckType.IF;
 	}
 
 	@Override
@@ -30,7 +30,7 @@ public class CheckingText extends Checking
 			return CheckingReturn.TRUE;
 		}
 		
-		return CheckingReturn.FALSE;
+		return CheckingReturn.SKIP;
 	}
 	
 	@Override
@@ -50,7 +50,7 @@ public class CheckingText extends Checking
 					this.value = n.getTextContent();
 					break;
 				default:
-					System.out.println("Something went wrong: CheckingText.parse(Node).");
+					System.out.println("Something went wrong: CheckingIf.parse(Node).");
 					throw new Exception();
 			}
 		}
@@ -61,7 +61,7 @@ public class CheckingText extends Checking
 	@Override
 	public String toString()
 	{
-		return "[Checking TEXT]{Position: " + this.position.toString() + "; Value: " + this.value + "}";
+		return "[Checking IF]{Position: " + this.position.toString() + "; Value: " + this.value + "}";
 	}
 	
 }

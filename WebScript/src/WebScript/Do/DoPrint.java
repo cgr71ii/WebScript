@@ -27,6 +27,7 @@ public class DoPrint extends Do
 		
 		String ownValue = new String(this.value);
 		
+		ownValue = ownValue.replaceAll("[{][t][}]", this.driver.getTitle());
 		ownValue = ownValue.replaceAll("[{][}]", message);
 		ownValue = ownValue.replaceAll("[\\\\][n]", "\n    ");
 		
@@ -50,7 +51,7 @@ public class DoPrint extends Do
 					this.value = n.getTextContent();
 					break;
 				default:
-					System.out.println("Something went wrong: DoWrite.parse(Node).");
+					System.out.println("Something went wrong: DoPrint.parse(Node).");
 					throw new Exception();
 			}
 		}

@@ -4,7 +4,9 @@ public enum DoType
 {
 	CLICK,
 	WRITE,
-	PRINT;
+	PRINT,
+	PRINTIMAGE,
+	GOURL;
 	
 	public static final Do getDoClass(DoType type)
 	{
@@ -16,6 +18,10 @@ public enum DoType
 				return new DoWrite();
 			case PRINT:
 				return new DoPrint();
+			case PRINTIMAGE:
+				return new DoPrintImage();
+			case GOURL:
+				return new DoGoURL();
 		}
 		
 		return new Do();

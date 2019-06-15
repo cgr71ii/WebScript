@@ -29,7 +29,7 @@ public class Checking
 		this.driver = driver;
 	}
 	
-	public Boolean check() throws Exception
+	public CheckingReturn check() throws Exception
 	{
 		if (this.driver == null)
 		{
@@ -38,7 +38,7 @@ public class Checking
 			throw new Exception();
 		}
 		
-		return false;
+		return CheckingReturn.FALSE;
 	}
 	
 	public Checking parse(Node cNode) throws Exception

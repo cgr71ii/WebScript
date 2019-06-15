@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.openqa.selenium.WebDriver;
 
 import WebScript.Checking.Checking;
+import WebScript.Checking.CheckingReturn;
 import WebScript.Do.Do;
 
 public class Action
@@ -61,11 +62,12 @@ public class Action
 		this.showOnlyNecessaryErrors = showOnlyNecessaryErrors;
 	}
 	
-	public Boolean perform() throws Exception
+	public CheckingReturn perform() throws Exception
 	{
-		Boolean checking = this.performChecking();
+		CheckingReturn checking = this.performChecking();
 		
-		if (!checking)
+		if (checking == CheckingReturn.FALSE ||
+			checking == CheckingReturn.SKIP)
 		{
 			return checking;
 		}
@@ -75,14 +77,16 @@ public class Action
 		return checking;
 	}
 	
-	public Boolean performChecking() throws Exception
+	public CheckingReturn performChecking() throws Exception
 	{
 		if (this.checking == null)
 		{
 			// Skipping checking
 			
-			return true;
+			return CheckingReturn.TRUE;
 		}
+		
+		Boolean skip = false;
 		
 		for (int i = 0; i < this.checking.size(); i++)
 		{
@@ -90,9 +94,16 @@ public class Action
 			
 			try
 			{
-				if (!this.checking.get(i).check())
+				CheckingReturn r = this.checking.get(i).check();
+				
+				if (r == CheckingReturn.FALSE ||
+					r == CheckingReturn.EXCEPTION)
 				{
 					throw new Exception();
+				}
+				else if (r == CheckingReturn.SKIP)
+				{
+					skip = true;
 				}
 			}
 			catch (Exception e)
@@ -103,7 +114,12 @@ public class Action
 			}
 		}
 		
-		return true;
+		if (skip)
+		{
+			return CheckingReturn.SKIP;
+		}
+		
+		return CheckingReturn.TRUE;
 	}
 	
 	public void performMethod() throws Exception

@@ -17,7 +17,7 @@ public class CheckingTitle extends Checking
 	}
 
 	@Override
-	public Boolean check() throws Exception
+	public CheckingReturn check() throws Exception
 	{
 		super.check();
 		
@@ -25,10 +25,10 @@ public class CheckingTitle extends Checking
 		
 		if (title.equals(this.value))
 		{
-			return true;
+			return CheckingReturn.TRUE;
 		}
 		
-		return false;
+		return CheckingReturn.FALSE;
 	}
 	
 	@Override

@@ -6,7 +6,7 @@ import java.util.ArrayList;
 public class Main
 {
 	
-	public static void printErrorMessageAndExit(int status)
+	private static void printErrorMessageAndExit(int status)
 	{
 		System.out.println("Syntax: java -jar WebScript.jar configuration.xml");
 		System.exit(status);
@@ -18,6 +18,8 @@ public class Main
 		{
 			printErrorMessageAndExit(1); 
 		}
+		
+		int viu = Util.checkIfViuIsInstalled();
 		
 		XMLParser parser = null;
 		
@@ -52,10 +54,15 @@ public class Main
 		}
 		
 		Integer verbose = parser.getVerbose();
-		//Boolean showOnlyNecessaryErrors = parser.getShowOnlyNecessaryErrors();
+		Boolean showOnlyNecessaryErrors = parser.getShowOnlyNecessaryErrors();
 		
 		if (verbose > 0)
 		{
+			if (viu != 0 && !showOnlyNecessaryErrors)
+			{
+				System.out.printf("%sWarning%s: viu %sis not installed%s (or detected), so you will not be able to show images.\n", AnsiColors.YELLOW, AnsiColors.RESET, AnsiColors.RED, AnsiColors.RESET);
+			}
+			
 			System.out.println("XML document parsed!");
 			
 			System.out.println();

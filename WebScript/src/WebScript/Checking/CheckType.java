@@ -3,7 +3,8 @@ package WebScript.Checking;
 public enum CheckType
 {
 	TITLE,
-	TEXT;
+	TEXT,
+	IF;
 	
 	public static final Checking getCheckingClass(CheckType type)
 	{
@@ -13,6 +14,8 @@ public enum CheckType
 				return new CheckingTitle();
 			case TEXT:
 				return new CheckingText();
+			case IF:
+				return new CheckingIf();
 		}
 		
 		return new Checking();

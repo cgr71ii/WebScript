@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.htmlunit.HtmlUnitDriver;
 
+import WebScript.Checking.CheckingReturn;
+
 public class WebScript
 {
 
@@ -90,7 +92,9 @@ public class WebScript
 			
 			try
 			{
-				if (!a.performChecking())
+				CheckingReturn checking = a.performChecking();
+				
+				if (checking == CheckingReturn.FALSE)
 				{
 					System.out.printf("    - The checking was %snot successfully%s at action #%d... skipping.\n", AnsiColors.RED, AnsiColors.RESET, actionCount - 1);
 					
@@ -98,6 +102,13 @@ public class WebScript
 					
 					// Stop the current web script -> checking failed
 					break;
+				}
+				else if (checking == CheckingReturn.SKIP)
+				{
+					if (verbose > 1)
+					System.out.println("    Skipping action current action.");
+					
+					continue;
 				}
 			}
 			catch (Exception e)
