@@ -37,6 +37,7 @@ public class DoPrint extends Do
 		ownValue = ownValue.replaceAll("[{][t][}]", this.driver.getTitle());
 		ownValue = ownValue.replaceAll("[{][}]", message);
 		ownValue = ownValue.replaceAll("[\\\\][n]", "\n    ");
+		ownValue = ownValue.replaceAll("[\n]", "\n    ");
 		
 		System.out.println("    " + ownValue);
 	}
