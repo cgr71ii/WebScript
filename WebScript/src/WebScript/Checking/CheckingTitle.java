@@ -42,7 +42,7 @@ public class CheckingTitle extends Checking
 			switch (n.getNodeName().toLowerCase())
 			{
 				case "value":
-					this.value = n.getTextContent();
+					this.value = Util.getValue(n);
 					break;
 				default:
 					System.out.println("Something went wrong: CheckingTitle.parse(Node).");

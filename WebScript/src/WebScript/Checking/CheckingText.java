@@ -47,7 +47,7 @@ public class CheckingText extends Checking
 					this.position.parse(n);
 					break;
 				case "value":
-					this.value = n.getTextContent();
+					this.value = Util.getValue(n);
 					break;
 				default:
 					System.out.println("Something went wrong: CheckingText.parse(Node).");

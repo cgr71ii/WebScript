@@ -22,6 +22,11 @@ public class Position
 		this.value = "";
 	}
 	
+	public Boolean isEmpty()
+	{
+		return this.value.isEmpty();
+	}
+	
 	public By getBy()
 	{
 		if (this.value.isEmpty())

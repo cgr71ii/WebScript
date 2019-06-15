@@ -41,7 +41,7 @@ public class DoWrite extends Do
 					this.position.parse(n);
 					break;
 				case "value":
-					this.value = n.getTextContent();
+					this.value = Util.getValue(n);
 					break;
 				default:
 					System.out.println("Something went wrong: DoWrite.parse(Node).");

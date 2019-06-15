@@ -14,6 +14,7 @@ import java.util.concurrent.TimeUnit;
 import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
@@ -71,7 +72,7 @@ public class Util
 			res.add(item);
 		}
 		
-		if (res.size() != nodes.length)
+		if (onlyAndOnly && res.size() != nodes.length)
 		{
 			System.out.println("  Not all nodes expected for \"" + node.getNodeName() + "\" found! Expected:");
 			
@@ -254,6 +255,69 @@ public class Util
 		}
 		
 		return exit;
+	}
+	
+	public static String getValue(Node vNode) throws Exception
+	{
+		String value = "";
+		
+		if (vNode.hasAttributes())
+		{
+			NamedNodeMap vNNM = vNode.getAttributes();
+			
+			if (vNNM.getLength() != 1 || !vNNM.item(0).getNodeName().equals("type"))
+			{
+				System.out.println("\"Value\" node has to have only the \"type\" attribute.");
+				
+				throw new Exception();
+			}
+			
+			Node typeNode = vNNM.getNamedItem("type");
+			
+			if (typeNode == null)
+			{
+				System.out.println("\"Value\" node has to have the \"type\" attribute, not other.");
+				
+				throw new Exception();
+			}
+			
+			String[] values = typeNode.getNodeValue().split("[:]");
+			
+			if (values.length != 2)
+			{
+				System.out.println("The \"value\" node \"type\" syntax is: \"envvar:CONCRETE_ENV_VAR\".");
+			}
+			
+			String type = values[0].toLowerCase();
+			
+			//System.out.println("type: " + type);
+			
+			if (!type.equals("endvar"))
+			{
+				System.out.println("The \"value\" node \"type\" can only be: ");
+				
+				System.out.println(" - endvar");
+				
+				throw new Exception();
+			}
+			
+			value = System.getenv(values[1]);
+			
+			if (value == null)
+			{
+				System.out.println("Environmental variable \"" + values[1] + "\" not found.");
+				
+				throw new Exception();
+			}
+			
+			value = vNode.getTextContent().replaceAll("[{][}]", value);
+		}
+		else
+		{
+			value = vNode.getTextContent();
+		}
+		
+		return value;
 	}
 	
 }

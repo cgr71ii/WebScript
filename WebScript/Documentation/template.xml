@@ -156,6 +156,12 @@
 				<value>Despite last action failed, here we are, because we used "if" instruction :)</value>
 			</do>
 		</action>
+		
+		<action>
+			<do method="print">
+				<value type="endvar:PATH">Title: {t}\nPATH envvar: {}</value>
+			</do>
+		</action>
 	</WebScript>
 	
 </WebScripts>

@@ -22,8 +22,15 @@ public class DoPrint extends Do
 	{
 		super.perform();
 		
-		WebElement element = Util.getWebElement(this.driver, this.position, this.showOnlyNecessaryErrors);
-		String message = element.getText();
+		Boolean blankMessage = this.position.isEmpty();
+		WebElement element = null;
+		String message = "";
+		
+		if (!blankMessage)
+		{
+			element = Util.getWebElement(this.driver, this.position, this.showOnlyNecessaryErrors);
+			message = element.getText();
+		}
 		
 		String ownValue = new String(this.value);
 		
@@ -38,7 +45,9 @@ public class DoPrint extends Do
 	public Do parse(Node dNode) throws Exception
 	{
 		String[] nodes = {"position", "value"};
-		ArrayList<Node> dwNodes = Util.getChildNodes(dNode, nodes, true);
+		
+		//ArrayList<Node> dwNodes = Util.getChildNodes(dNode, nodes, true);
+		ArrayList<Node> dwNodes = Util.getChildNodes(dNode, nodes, false);
 		
 		for (Node n : dwNodes)
 		{
@@ -48,7 +57,7 @@ public class DoPrint extends Do
 					this.position.parse(n);
 					break;
 				case "value":
-					this.value = n.getTextContent();
+					this.value = Util.getValue(n);
 					break;
 				default:
 					System.out.println("Something went wrong: DoPrint.parse(Node).");

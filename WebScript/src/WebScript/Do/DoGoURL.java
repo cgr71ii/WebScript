@@ -35,7 +35,7 @@ public class DoGoURL extends Do
 			switch (n.getNodeName().toLowerCase())
 			{
 				case "value":
-					this.value = n.getTextContent();
+					this.value = Util.getValue(n);
 					break;
 				default:
 					System.out.println("Something went wrong: DoGoURL.parse(Node).");
