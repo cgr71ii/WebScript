@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.openqa.selenium.WebElement;
 import org.w3c.dom.Node;
 
+import WebScript.AnsiColors;
 import WebScript.Util;
 
 public class DoPrint extends Do
@@ -36,8 +37,18 @@ public class DoPrint extends Do
 		
 		ownValue = ownValue.replaceAll("[{][t][}]", this.driver.getTitle());
 		ownValue = ownValue.replaceAll("[{][}]", message);
-		ownValue = ownValue.replaceAll("[\\\\][n]", "\n    ");
-		ownValue = ownValue.replaceAll("[\n]", "\n    ");
+		ownValue = ownValue.replaceAll("[\\\\][n]", "\n    ");	// Own new lines
+		ownValue = ownValue.replaceAll("[\n]", "\n    ");		// Web new lines
+		
+		ownValue = ownValue.replaceAll("[{][R][}]", AnsiColors.RED);
+		ownValue = ownValue.replaceAll("[{][G][}]", AnsiColors.GREEN);
+		ownValue = ownValue.replaceAll("[{][B][}]", AnsiColors.BLUE);
+		ownValue = ownValue.replaceAll("[{][Y][}]", AnsiColors.YELLOW);
+		
+		ownValue = ownValue.replaceAll("[{][b][}]", AnsiColors.BOLD);
+		ownValue = ownValue.replaceAll("[{][u][}]", AnsiColors.UNDERLINE);
+		
+		ownValue = ownValue.replaceAll("[{][/][ubRGBY][}]", AnsiColors.RESET);
 		
 		System.out.println("    " + ownValue);
 	}

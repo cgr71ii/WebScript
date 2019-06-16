@@ -22,7 +22,7 @@ public class CheckingIf extends Checking
 	{
 		super.check();
 		
-		WebElement element = Util.getWebElement(this.driver, this.position);
+		WebElement element = Util.getWebElement(this.driver, this.position, this.showOnlyNecessaryErrors);
 		String text = element.getText();
 		
 		if (text.equals(this.value))

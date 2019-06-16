@@ -106,7 +106,7 @@ public class WebScript
 				else if (checking == CheckingReturn.SKIP)
 				{
 					if (verbose > 1)
-					System.out.println("    Skipping action current action.");
+					System.out.println("    Skipping current action due to checking.");
 					
 					continue;
 				}
@@ -126,11 +126,21 @@ public class WebScript
 			}
 			catch (Exception e2)
 			{
-				System.out.printf("    - %sAborting%s current WebScript.\n", AnsiColors.RED, AnsiColors.RESET);
-				
-				error = true;
-				
-				break;
+				if (!a.getContinueIfFailsMethod())
+				{
+					System.out.printf("    - %sAborting%s current WebScript.\n", AnsiColors.RED, AnsiColors.RESET);
+					
+					error = true;
+					
+					break;
+				}
+				else
+				{
+					if (verbose > 1)
+					System.out.println("    Skipping current action.");
+					
+					continue;
+				}
 			}
 		}
 		

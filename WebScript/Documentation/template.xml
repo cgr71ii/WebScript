@@ -193,6 +193,21 @@
 				<value>Sixth print!</value>
 			</do>
 		</action>
+		
+		<action>
+			<continueIfFailsMethod>true</continueIfFailsMethod>
+		
+			<do method="print">
+				<position type="xpath">halo3</position>
+				<value>blabla {}</value>
+			</do>
+		</action>
+		
+		<action>
+			<do method="print">
+				<value>Printing...</value>
+			</do>
+		</action>
 	</WebScript>
 	
 </WebScripts>

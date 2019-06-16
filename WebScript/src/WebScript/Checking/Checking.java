@@ -4,6 +4,7 @@ import org.openqa.selenium.WebDriver;
 import org.w3c.dom.NamedNodeMap;
 import org.w3c.dom.Node;
 
+import WebScript.DefaultValues;
 import WebScript.Checking.CheckType;
 import WebScript.Locator.Position;
 
@@ -12,6 +13,8 @@ public class Checking
 	protected CheckType type;
 	
 	protected WebDriver driver;
+	
+	protected Boolean showOnlyNecessaryErrors;
 	
 	// Fields for checking
 	protected Position position;
@@ -22,6 +25,12 @@ public class Checking
 		this.position = new Position();
 		this.value = new String();
 		this.driver = null;
+		this.showOnlyNecessaryErrors = DefaultValues.SHOW_ONLY_NECESSARY_ERRORS;
+	}
+	
+	public final void setShowOnlyNecessaryErrors(Boolean showOnlyNecessaryErrors)
+	{
+		this.showOnlyNecessaryErrors = showOnlyNecessaryErrors;
 	}
 	
 	public final void setDriver(WebDriver driver)

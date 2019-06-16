@@ -63,7 +63,7 @@ public class Main
 				System.out.printf("%sWarning%s: viu %sis not installed%s (or detected), so you will not be able to show images.\n", AnsiColors.YELLOW, AnsiColors.RESET, AnsiColors.RED, AnsiColors.RESET);
 			}
 			
-			System.out.println("XML document parsed!");
+			System.out.printf("%sXML document parsed%s!\n", AnsiColors.UNDERLINE, AnsiColors.RESET);
 			
 			System.out.println();
 		}

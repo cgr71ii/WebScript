@@ -172,6 +172,11 @@ public class XMLParser
 					
 					webScript.addAction(action);
 				}
+				else
+				{
+					if (!this.showOnlyNecessaryErrors && this.verbose > 1)
+					System.out.println("Node \"" + wsItem.getNodeName() + "\" unexpected, but still parsing...");
+				}
 			}
 			
 			if (skipWebScript)
@@ -207,6 +212,8 @@ public class XMLParser
 		ArrayList<Do> alDo = new ArrayList<>();
 		Boolean checkingFound = false, doFound = false;
 		Boolean doRunAny = DefaultValues.DO_RUN_ANY;
+		Boolean continueIfFailsMethod = DefaultValues.CONTINUE_IF_FAILS_METHOD;
+		Boolean continueIfFailsChecking = DefaultValues.CONTINUE_IF_FAILS_CHECKING;
 		
 		for (int i = 0; i < aItems.getLength(); i++)
 		{
@@ -259,6 +266,46 @@ public class XMLParser
 						throw new Exception();
 				}
 			}
+			else if (aItem.getNodeName().equals("continueIfFailsMethod"))
+			{
+				String continueIfFailsMethodAux = aItem.getTextContent();
+				
+				switch (continueIfFailsMethodAux.toLowerCase())
+				{
+					case "true":
+						continueIfFailsMethod = true;
+						break;
+					case "false":
+						continueIfFailsMethod = false;
+						break;
+					default:
+						System.out.println("Node \"continueIfFailsMethod\" can only be:");
+						System.out.println("  - true");
+						System.out.println("  - false");
+						
+						throw new Exception();
+				}
+			}
+			else if (aItem.getNodeName().equals("continueIfFailsChecking"))
+			{
+				String continueIfFailsCheckingAux = aItem.getTextContent();
+				
+				switch (continueIfFailsCheckingAux.toLowerCase())
+				{
+					case "true":
+						continueIfFailsChecking = true;
+						break;
+					case "false":
+						continueIfFailsChecking = false;
+						break;
+					default:
+						System.out.println("Node \"continueIfFailsChecking\" can only be:");
+						System.out.println("  - true");
+						System.out.println("  - false");
+						
+						throw new Exception();
+				}
+			}
 			else
 			{
 				if (!this.showOnlyNecessaryErrors && this.verbose > 1)
@@ -278,6 +325,8 @@ public class XMLParser
 		Action action = new Action(alChecking, alDo);
 		
 		action.setDoRunAny(doRunAny);
+		action.setContinueIfFailsMethod(continueIfFailsMethod);
+		action.setContinueIfFailsChecking(continueIfFailsChecking);
 		
 		return action;
 	}

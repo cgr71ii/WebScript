@@ -11,4 +11,7 @@ public class DefaultValues
 	
 	public final static Boolean DO_RUN_ANY = true;
 	
+	public final static Boolean CONTINUE_IF_FAILS_CHECKING = false;
+	public final static Boolean CONTINUE_IF_FAILS_METHOD = false;
+	
 }

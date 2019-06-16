@@ -23,12 +23,18 @@ public class Action
 	
 	private Boolean doRunAny;
 	
+	private Boolean continueIfFailsMethod;
+	
+	private Boolean continueIfFailsChecking;
+	
 	private Action()
 	{
 		this.driver = null;
 		this.showOnlyNecessaryErrors = DefaultValues.SHOW_ONLY_NECESSARY_ERRORS;
 		this.verbose = DefaultValues.VERBOSE;
 		this.doRunAny = DefaultValues.DO_RUN_ANY;
+		this.continueIfFailsMethod = DefaultValues.CONTINUE_IF_FAILS_METHOD;
+		this.continueIfFailsChecking = DefaultValues.CONTINUE_IF_FAILS_CHECKING;
 	}
 
 	public Action(Checking checking, Do _do)
@@ -40,8 +46,6 @@ public class Action
 		
 		this.checking.add(checking);
 		this._do.add(_do);
-		
-		this.doRunAny = DefaultValues.DO_RUN_ANY;
 	}
 	
 	public Action(ArrayList<Checking> checking, ArrayList<Do> _do)
@@ -50,8 +54,6 @@ public class Action
 		
 		this.checking = checking;
 		this._do = _do;
-		
-		this.doRunAny = DefaultValues.DO_RUN_ANY;
 	}
 	
 	public final void setDoRunAny(Boolean doRunAny)
@@ -72,6 +74,57 @@ public class Action
 	public final void setShowOnlyNecessaryErrors(Boolean showOnlyNecessaryErrors)
 	{
 		this.showOnlyNecessaryErrors = showOnlyNecessaryErrors;
+		
+		if (this.checking != null)
+		{
+			for (Checking c : this.checking)
+			{
+				c.setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors || this.continueIfFailsMethod);
+			}
+		}
+		if (this._do != null)
+		{
+			for (Do d : this._do)
+			{
+				d.setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors || this.continueIfFailsMethod);
+			}
+		}
+	}
+	
+	public final void setContinueIfFailsMethod(Boolean continueIfFailsMethod)
+	{
+		this.continueIfFailsMethod = continueIfFailsMethod;
+		
+		if (this._do != null)
+		{
+			for (Do d : this._do)
+			{
+				d.setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors || this.continueIfFailsMethod);
+			}
+		}
+	}
+	
+	public final Boolean getContinueIfFailsMethod()
+	{		
+		return this.continueIfFailsMethod;
+	}
+	
+	public final void setContinueIfFailsChecking(Boolean continueIfFailsChecking)
+	{
+		this.continueIfFailsChecking = continueIfFailsChecking;
+		
+		if (this.checking != null)
+		{
+			for (Checking c : this.checking)
+			{
+				c.setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors || this.continueIfFailsMethod);
+			}
+		}
+	}
+	
+	public final Boolean getContinueIfFailsChecking()
+	{
+		return this.continueIfFailsChecking;
 	}
 	
 	public CheckingReturn perform() throws Exception
@@ -103,6 +156,7 @@ public class Action
 		for (int i = 0; i < this.checking.size(); i++)
 		{
 			this.checking.get(i).setDriver(this.driver);
+			this.checking.get(i).setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors || this.continueIfFailsChecking);
 			
 			try
 			{
@@ -111,7 +165,14 @@ public class Action
 				if (r == CheckingReturn.FALSE ||
 					r == CheckingReturn.EXCEPTION)
 				{
-					throw new Exception();
+					if (!this.continueIfFailsChecking)
+					{
+						throw new Exception();
+					}
+					else
+					{
+						skip = true;
+					}
 				}
 				else if (r == CheckingReturn.SKIP)
 				{
@@ -120,9 +181,19 @@ public class Action
 			}
 			catch (Exception e)
 			{
-				System.out.printf("  %sSomething went wrong%s while performing the checking (Checking #%d).\n", AnsiColors.RED, AnsiColors.RESET, i + 1);
-				
-				throw new Exception();
+				if (!this.continueIfFailsChecking)
+				{
+					System.out.printf("  %sSomething went wrong%s while performing the checking (Checking #%d).\n", AnsiColors.RED, AnsiColors.RESET, i + 1);
+					
+					throw new Exception();
+				}
+				else
+				{
+					if (!this.showOnlyNecessaryErrors && this.verbose > 0)
+					System.out.printf("  %sSomething went wrong%s while performing the checking (Checking #%d), but still running...\n", AnsiColors.RED, AnsiColors.RESET, i + 1);
+					
+					skip = true;
+				}
 			}
 		}
 		
@@ -148,7 +219,7 @@ public class Action
 		for (int i = 0; i < this._do.size(); i++)
 		{
 			this._do.get(i).setDriver(this.driver);
-			this._do.get(i).setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors);
+			this._do.get(i).setShowOnlyNecessaryErrors(this.showOnlyNecessaryErrors || this.continueIfFailsMethod);
 			
 			try
 			{
